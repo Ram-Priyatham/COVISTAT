@@ -1,0 +1,353 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>CoviStat</title>
+        <meta content="" name="description">
+        <meta content="" name="keywords">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <!-- Favicons -->
+        <link href="{% static 'assets\img\logo.png' %}" rel="icon">
+        <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+        <link rel="stylesheet" herf="css/all/min.css">
+        <link rel="stylesheet" herf="css/fontawesome.min.css">
+        <link rel="stylesheet" herf="style.css">
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+        <!-- Vendor CSS Files -->
+        <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+        <!-- Template Main CSS File -->
+        <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+        
+    </head>
+    <body onload="drawBasic()">
+        <script type="text/javascript">
+            google.charts.load('current', {packages: ['corechart', 'line']});
+            google.charts.setOnLoadCallback(drawBasic);
+            function drawBasic() {
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'X');
+                data.addColumn('number', {{user_required_type_json|safe}});
+
+                data.addRows({{chart_list_json|safe}});
+                var options = {
+                hAxis: {
+                    title: 'Dates',
+                    textStyle: {
+                        color: '#1a237e',
+                        fontSize: 14,
+                        fontName: 'Calibri',
+                        bold: true
+                    },
+                    titleTextStyle: {
+                        color:'#1a237e',
+                        fontSize: 22,
+                        fontName: 'Calibri',
+                        bold: true,
+                    },
+                },
+                vAxis: {
+                    title: {{user_required_type_json|safe}},
+                    textStyle: {
+                    color: '#1a237e',
+                    fontName: 'Calibri',
+                    fontSize: 18,
+                    bold: true
+                    },
+                    titleTextStyle: {
+                        color: '#1a237e',
+                        fontName: 'Calibri',
+                        fontSize: 22,
+                        bold: true
+                    },
+                },
+                title: {{user_input_state_json|safe}}+' '+{{user_required_type_json|safe}}+' Data'
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+                chart.draw(data, options);
+                }
+
+        </script>
+        <!-- ======= Header ======= -->
+        <header id="header" class="fixed-top header-transparent">
+            <div class="container d-flex align-items-center justify-content-between">
+                <div class="logo">
+                    <h1 class="text-light"><a href="index.html"><span>COVISTAT</span></a></h1>
+                </div>
+                <nav id="navbar" class="navbar">
+                    <ul>
+                        <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                        <li><a class="nav-link scrollto" href="#about">Analyze</a></li>
+                        <li><a class="nav-link scrollto" href="#services">Symptoms</a></li>
+                        <li><a class="nav-link scrollto" href="#portfolio">Precautions</a></li>
+                    </ul>
+                    <i class="bi bi-list mobile-nav-toggle"></i>
+                </nav>
+            </div>
+        </header>
+        <!-- End Header -->
+        <!-- ======= Hero Section ======= -->
+        <section id="hero">
+            <div class="hero-container" data-aos="fade-up">
+                <a href="#about" class="btn-get-started scrollto"><i class="bx bx-chevrons-down"></i></a>
+            </div>
+        </section>
+        </section>
+        <!-- End Hero -->
+        <main id="main">
+        <!-- ======= About Section ======= -->
+        <section id="about" class="about">
+            <div class="container">
+                <div class="section-title" data-aos="fade-in" data-aos-delay="100">
+                    <h2>Analyze</h2>
+                    <p>The API used has stopped its services so the data is available up to October 31.</p>
+                </div>
+                <div class="row no-gutters" >
+                    <div class="content col-xl-5 d-flex align-items-stretch" data-aos="fade-up">
+                        <div class="content">
+                            <div class="d-flex justify-content-start gap-4 mb-3">
+                                <div>
+                                    <nav class="navbar navbar-expand-lg navbar-expand-sm navbar-expand-md">
+                                        <div class="container-fluid justify-content-start">
+                                            <h1 class="navbar-brand body" href="#">State</h1>
+                                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                                            <span class="navbar-toggler-icon"></span>
+                                            </button>
+                                            <form method="post" >
+                                                {% csrf_token %}
+                                                <select class="ms-5" style="width: 200px; height: 35px; background-color: #257ba0;border-color: #257BA0; color: #fff; border-radius: 4px;" name="state" id="state">
+                                                    <option >Select state</option>
+                                                    <option value="AP">Andhra Pradesh</option>
+                                                    <option value="AN">Andaman and Nicobar Islands</option>
+                                                    <option value="AR">Arunachal Pradesh</option>
+                                                    <option value="AS">Assam</option>
+                                                    <option value="BR">Bihar</option>
+                                                    <option value="CH">Chandigarh</option>
+                                                    <option value="CT">Chhattisgarh</option>
+                                                    <option value="DN">Dadar and Nagar Haveli and Damanand Diu</option>
+                                                    <option value="DL">Delhi</option>
+                                                    <option value="LA">Ladhak</option>
+                                                    <option value="LD">Lakshadweep</option>
+                                                    <option value="PY">Puducherry</option>
+                                                    <option value="GA">Goa</option>
+                                                    <option value="GJ">Gujarat</option>
+                                                    <option value="HR">Haryana</option>
+                                                    <option value="HP">Himachal Pradesh</option>
+                                                    <option value="JK">Jammu and Kashmir</option>
+                                                    <option value="JH">Jharkhand</option>
+                                                    <option value="KA">Karnataka</option>
+                                                    <option value="KL">Kerala</option>
+                                                    <option value="MP">Madhya Pradesh</option>
+                                                    <option value="MH">Maharashtra</option>
+                                                    <option value="MN">Manipur</option>
+                                                    <option value="ML">Meghalaya</option>
+                                                    <option value="MZ">Mizoram</option>
+                                                    <option value="NL">Nagaland</option>
+                                                    <option value="OR">Odisha</option>
+                                                    <option value="PB">Punjab</option>
+                                                    <option value="RJ">Rajasthan</option>
+                                                    <option value="SK">Sikkim</option>
+                                                    <option value="TN">Tamil Nadu</option>
+                                                    <option value="TG">Telangana</option>
+                                                    <option value="TR">Tripura</option>
+                                                    <option value="UP">Uttar Pradesh</option>
+                                                    <option value="UT">Uttarakhand</option>
+                                                    <option value="WB">West Bengal</option>
+                                                </select>
+                                                </li>
+                                                </ul>
+                                        </div>
+                                </div>
+                                </nav>
+                            </div>
+                            <div class="d-flex justify-content-start  mb-3 ">
+                            <div>
+                            <nav class="navbar navbar-expand-lg navbar-expand-sm navbar-expand-md">
+                            <div class="container-fluid justify-content-start">
+                            <h1 class="navbar-brand" href="#">Category</h1>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <select class="ms-2" style="width: 200px; height: 35px; background-color:#257BA0; border-color: #67b0d1; color: #fff; border-radius: 4px;" name="required_type" id="state">
+                                <option>Choose category </option>
+                                <option value="confirmed">Confirmed </option>
+                                <option value="recovered">Recovered</option>
+                                <option value="deceased">Deceased</option>
+                                <option value="vaccinated1">Vaccinated-1</option>
+                                <option value="vaccinated2">Vaccinated-2</option>   
+                            </select>
+                            </li>
+                            </ul>
+                            </div>
+                            </div>
+                            </nav>
+                            </div>
+                            <div class="d-flex justify-content-start  mb-3 ">
+                            <div>
+                            <nav class="navbar navbar-expand-lg navbar-expand-sm navbar-expand-md">
+                            <div class="container-fluid justify-content-start">
+                            <h1 class="navbar-brand" href="#">Type</h1>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <select class="ms-5" style="width: 200px; height: 35px; background-color:#257BA0;border-color: #67b0d1; color: #fff; border-radius: 4px;" name="data_period" id="state">
+                                <option>Select type</option>
+                                <option value="delta">Daily data</option>
+                                <option value="total">Cumulative data</option>
+                                </select>
+                            </li>
+                            </ul>
+                            </div>
+                            </div>
+                            </div>
+                            </nav>
+                            <!-- Date Range -->
+                            <div class="d-flex justify-content  mb-3 ">
+                            <nav class="navbar navbar-expand-lg navbar-expand-sm navbar-expand-md">
+                            <nav class="container-fluid justify-content-start">
+                            <h4 class="navbar-brand mt-4" href="#" >Date Range</h4>
+                            <div class=" bg-white sm:p-6 rounded-md flex justify-between" >
+                            <label class="block text-sm font-medium text-gray-700 gap-4">From
+                            <input  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md" type="date" name="date_from" required pattern="\d{4}-\d{2}-\d{2}" placeholder="20/02/2020">
+                            <span></span>
+                            </label>
+                            </div>
+                            <div class="bg-white sm:p-6 rounded-md flex justify-between"  >
+                            <label class="block text-sm font-medium text-gray-700 gap-4 ps-4" >To
+                            <input  class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md" type="date" name="date_to" required pattern="\d{4}-\d{2}-\d{2}" placeholder="20/02/2020">
+                            <span></span>
+                            </label>
+                            </div>
+                            </nav>
+                            </nav>
+                            </div>
+                            <nav>
+                            <div>
+                            <div class="gap-3 py-4" style="margin-left: 300px; ">
+                            <input type="submit" class="btn btn-secondary" style="background-color:#257BA0;border-color: #67b0d1; border-radius: 3px;"></input>
+                            </div>
+                            </div>
+                            </nav>
+                        </div>
+                    </div>
+                    </form>
+
+                    <div id="chart_div" style="height: 750px;"></div>
+                </div>
+            </div>
+        </section>
+        <!-- End About Section -->
+        <!-- ======= Services Section ======= -->
+        <section id="services" class="services">
+            <div class="container">
+                <div class="section-title" data-aos="fade-in" data-aos-delay="100">
+                    <h2>Symptoms</h2>
+                    <p>COVID-19 affects different people in different ways. Most infected people will develop mild to moderate illness and recover without hospitalization.
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box" data-aos="fade-up" data-aso-delay="100">
+                            <img src="https://img.icons8.com/doodle/48/000000/fever.png" />
+                            <h4 class="title"><a href="">Fever</a></h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+                            <img src="https://img.icons8.com/external-flatarticons-blue-flatarticons/65/000000/external-cough-coronavirus-covid19-flatarticons-blue-flatarticons.png" />
+                            <h4 class="title"><a href="">Cough</a></h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+                            <img src="https://img.icons8.com/color/48/000000/person-tired.png" />
+                            <h4 class="title"><a href="">Tiredness</a></h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/taste.png" />
+                            <h4 class="title"><a href="">Loss of taste or smell</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Services Section -->
+        <!-- ======= Services Section ======= -->
+        <section id="services" class="services">
+            <div class="container">
+                <div class="section-title" data-aos="fade-in" data-aos-delay="100">
+                    <h2>Precautions</h2>
+                    <p>Stopping the spread starts with you</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box" data-aos="fade-up" data-aso-delay="100">
+                            <img src="https://img.icons8.com/color/50/000000/wear-dust-mask.png" />
+                            <h4 class="title"><a href="">Wear a mask</a></h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+                            <img src="https://img.icons8.com/ios/48/000000/wash-your-hands--v2.png" />
+                            <h4 class="title"><a href="">Clean your hands</a></h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+                            <img src="https://img.icons8.com/doodle/48/000000/social-distance.png" />
+                            <h4 class="title"><a href="">Maintain social distance</a></h4>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+                            <img src="https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/60/000000/external-vaccine-baby-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png" />
+                            <h4 class="title"><a href="">Get vaccinated</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ======= Counts Section ======= -->
+        <!-- End Counts Section -->
+        <!-- ======= Footer ======= -->
+        <footer id="footer">
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="copyright">
+                    <strong><span>Designed by : K.Ram Priyatham, P.Vaishnavi, G.Lohithya, N.Karthikeya</span></strong></br>
+                    <strong><span>API Used: <a href="https://data.covid19india.org/v4/min/timeseries.min.json">https://data.covid19india.org/v4/min/timeseries.min.json</a></span></strong>
+                </div>
+            </div>
+        </footer>
+        <!-- End Footer -->
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        <!-- Vendor JS Files -->
+        <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+        <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+        <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+        <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+        <script src="{% static 'assets/vendor/purecounter/purecounter.js' %}"></script>
+        <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+        <!-- Template Main JS File -->
+        <script src="{% static 'assets/js/main.js' %}"></script>
+    </body>
+</html>

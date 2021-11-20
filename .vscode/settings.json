@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/2ade2200-5f73-446e-8c08-1f73c0c19b88/resourceGroups/project/providers/Microsoft.Web/sites/covistat",
+    "appService.deploySubpath": "."
+}

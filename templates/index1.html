@@ -1,0 +1,54 @@
+
+    <div id="chart_div">
+      <script type="text/javascript">
+
+          google.charts.load('current', {packages: ['corechart', 'line']});
+          google.charts.setOnLoadCallback(drawBasic);
+          function drawBasic() {
+              var data = new google.visualization.DataTable();
+              data.addColumn('string', 'X');
+              data.addColumn('number', {{user_required_type_json|safe}});
+
+              data.addRows({{chart_list_json|safe}});
+
+              var options = {
+              hAxis: {
+                  title: 'Dates',
+                  textStyle: {
+                      color: '#1a237e',
+                      fontSize: 14,
+                      fontName: 'Calibri',
+                      bold: true
+                  },
+                  titleTextStyle: {
+                      color:'#1a237e',
+                      fontSize: 22,
+                      fontName: 'Calibri',
+                      bold: true,
+                  },
+              },
+              vAxis: {
+                  title: {{user_required_type_json|safe}},
+                  textStyle: {
+                  color: '#1a237e',
+                  fontName: 'Calibri',
+                  fontSize: 18,
+                  bold: true
+                  },
+                  titleTextStyle: {
+                      color: '#1a237e',
+                      fontName: 'Calibri',
+                      fontSize: 22,
+                      bold: true
+                  },
+              },
+              title: {{user_input_state_json|safe}}+' '+{{user_required_type_json|safe}}+' Data'
+              };
+
+              var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+              chart.draw(data, options);
+              }
+
+      </script>
+  </div>
